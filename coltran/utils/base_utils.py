@@ -88,7 +88,7 @@ def get_bw_and_color(inputs, colorspace):
 
 def rgb_to_ycbcr(rgb):
   """Map from RGB to YCbCr colorspace."""
-  rgb = tf.cast(rgb, dtype=tf.float32)
+  rgb = tf.cast(rgb, dtype=float)
   r, g, b = tf.unstack(rgb, axis=-1)
   y = r * 0.299 + g * 0.587 + b * 0.114
   cb = r * -0.1687 - g * 0.3313 + b * 0.5
@@ -104,7 +104,7 @@ def rgb_to_ycbcr(rgb):
 
 def ycbcr_to_rgb(ycbcr):
   """Map from YCbCr to Colorspace."""
-  ycbcr = tf.cast(ycbcr, dtype=tf.float32)
+  ycbcr = tf.cast(ycbcr, dtype=float)
   y, cb, cr = tf.unstack(ycbcr, axis=-1)
 
   cb -= 128.0
@@ -124,7 +124,7 @@ def convert_bits(x, n_bits_out=8, n_bits_in=8):
   """Quantize / dequantize from n_bits_in to n_bits_out."""
   if n_bits_in == n_bits_out:
     return x
-  x = tf.cast(x, dtype=tf.float32)
+  x = tf.cast(x, dtype=float)
   x = x / 2**(n_bits_in - n_bits_out)
   x = tf.cast(x, dtype=tf.int32)
   return x
@@ -132,14 +132,14 @@ def convert_bits(x, n_bits_out=8, n_bits_in=8):
 
 def get_patch(upscaled, window, normalize=True):
   """Extract patch of size from upscaled.shape[1]//window from upscaled."""
-  upscaled = tf.cast(upscaled, dtype=tf.float32)
+  upscaled = tf.cast(upscaled, dtype=float)
 
   # pool + quantize + normalize
   patch = tf.nn.avg_pool2d(
       upscaled, ksize=window, strides=window, padding='VALID')
 
   if normalize:
-    patch = tf.cast(patch, dtype=tf.float32)
+    patch = tf.cast(patch, dtype=float)
     patch /= 256.0
   else:
     patch = tf.cast(patch, dtype=tf.int32)
@@ -156,7 +156,7 @@ def labels_to_bins(labels, num_symbols_per_channel):
   Returns:
     labels: 3-D Tensor, shape=(batch_size, H, W) with 512 possible symbols.
   """
-  labels = tf.cast(labels, dtype=tf.float32)
+  labels = tf.cast(labels, dtype=float)
   channel_hash = [num_symbols_per_channel**2, num_symbols_per_channel, 1.0]
   channel_hash = tf.constant(channel_hash)
   labels = labels * channel_hash

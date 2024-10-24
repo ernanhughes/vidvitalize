@@ -23,8 +23,8 @@ import functools
 import math
 import operator
 import numpy as np
-import tensorflow.compat.v2 as tf
-from tensorflow.compat.v2.keras import layers
+from tensorflow import keras
+from keras import layers
 from coltran.utils import att_utils
 from coltran.utils import base_utils
 
@@ -83,7 +83,7 @@ class Cache(layers.Layer):
 
   def __init__(self, canvas_shape,
                num_batch_axes=1,
-               dtype=tf.float32,
+               dtype=float,
                **kwargs):
     super(Cache, self).__init__(trainable=False, **kwargs)
     self.canvas_shape = canvas_shape
@@ -189,7 +189,7 @@ class PositionEmbed(layers.Layer):
     for i, axis in enumerate(self.axes):
       shape = [self.max_lengths[i]] + [1] * (rank - axis - 2)
       shape.append(input_shape[-1])
-      init = tf.keras.initializers.RandomNormal(stddev=shape[-1]**-0.5)
+      init = keras.initializers.RandomNormal(stddev=shape[-1]**-0.5)
       self.embeddings.append(
           self.add_weight(
               name='position_embedding_%d' % i,
@@ -222,7 +222,7 @@ class DenseND(layers.Layer):
     self.filters = tuple(filters)
     self.contract_axes = contract_axes
     self.use_bias = use_bias
-    self.activation = tf.keras.activations.get(activation)
+    self.activation = keras.activations.get(activation)
     self.bias_initializer = bias_initializer
     self._kernel_initializer = kernel_initializer
 
@@ -235,7 +235,7 @@ class DenseND(layers.Layer):
     """Returns number of batch axes in inputs."""
     return len(input_shape) - len(self.contract_shape)
 
-  def _glorot_uniform(self, shape, dtype=tf.float32):
+  def _glorot_uniform(self, shape, dtype=float):
     """Glorot uniform initializer."""
     fan_out = functools.reduce(operator.mul, self.filters)
     fan_in = functools.reduce(operator.mul, shape[:self.contract_axes])
@@ -293,7 +293,7 @@ class RelativeAttentionBiasND(layers.Layer):
         weight = self.add_weight(
             name='relative_attention_bias_%d' % i,
             shape=[self.num_heads, 2 * l],
-            initializer=tf.keras.initializers.Zeros(), trainable=True)
+            initializer=keras.initializers.Zeros(), trainable=True)
       else:
         weight = None
       self.biases.append(weight)
@@ -360,7 +360,7 @@ class ConditionalLayerNorm(layers.Layer):
     if self.spatial_average == 'learnable':
       self.spatial_weights = self.add_weight(
           name='spatial_average', shape=(1, height, width, 1),
-          initializer=tf.keras.initializers.Ones())
+          initializer=keras.initializers.Ones())
     self.channel_dense = layers.Dense(
         units=2*features, kernel_initializer=self.out_init)
     super(ConditionalLayerNorm, self).build(input_shape)
@@ -640,7 +640,7 @@ class FactorizedAttention(layers.Layer):
           hidden_size=hidden_size, num_heads=num_heads,
           nd_block_size=[1, width], resolution=[height, width])
 
-      ff_row = tf.keras.Sequential([
+      ff_row = keras.Sequential([
           layers.Dense(units=ff_size, activation='relu'),
           layers.Dense(units=hidden_size)
       ])
@@ -650,7 +650,7 @@ class FactorizedAttention(layers.Layer):
           hidden_size=hidden_size, num_heads=num_heads,
           nd_block_size=[height, 1], resolution=[height, width])
 
-      ff_col = tf.keras.Sequential([
+      ff_col = keras.Sequential([
           layers.Dense(units=ff_size, activation='relu'),
           layers.Dense(units=hidden_size)
       ])

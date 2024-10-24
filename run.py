@@ -218,7 +218,7 @@ def train(logdir):
   metric_keys = ['loss', 'total_loss']
   metric_keys += model.metric_keys
   for metric_key in metric_keys:
-    func = functools.partial(tf.keras.metrics.Mean, metric_key)
+    func = functools.partial(keras.metrics.Mean, metric_key)
     curr_metric = train_utils.with_strategy(func, strategy)
     metrics[metric_key] = curr_metric
 
@@ -313,7 +313,7 @@ def evaluate(logdir, subset):
   # metric_keys += model.metric_keys
   metrics = {}
   for metric_key in metric_keys:
-    func = functools.partial(tf.keras.metrics.Mean, metric_key)
+    func = functools.partial(keras.metrics.Mean, metric_key)
     curr_metric = train_utils.with_strategy(func, strategy)
     metrics[metric_key] = curr_metric
 

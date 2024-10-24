@@ -28,7 +28,7 @@ from coltran.models import layers as coltran_layers
 from coltran.utils import base_utils
 
 
-class ColTranCore(tf.keras.Model):
+class ColTranCore(keras.Model):
   """Colorization Transformer."""
 
   def __init__(self, config, **kwargs):

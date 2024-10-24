@@ -38,7 +38,7 @@ class LayersTest(tf.test.TestCase, parameterized.TestCase):
     cache = layers.Cache(canvas_shape=(2, 4))
 
     # update 1
-    exp_first = tf.range(8, dtype=tf.float32)
+    exp_first = tf.range(8, dtype=float)
     exp_first = tf.reshape(exp_first, (1, 2, 2, 2))
     index = tf.stack([0, 0])
     out = cache(inputs=(exp_first, index))
@@ -46,7 +46,7 @@ class LayersTest(tf.test.TestCase, parameterized.TestCase):
     self.assertTrue(np.allclose(out_slice, exp_first.numpy()))
 
     # update 2
-    exp_second = tf.range(8, 16, dtype=tf.float32)
+    exp_second = tf.range(8, 16, dtype=float)
     exp_second = tf.reshape(exp_second, (1, 2, 2, 2))
     index = tf.stack([0, 2])
     out = cache(inputs=(exp_second, index))

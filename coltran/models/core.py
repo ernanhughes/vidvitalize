@@ -157,7 +157,7 @@ class OuterDecoder(layers.Layer):
           cond_act=self.cond_att_act,
           name='unmask_row_att_%d' % layer_ind)
 
-      ff_row = tf.keras.Sequential([
+      ff_row = keras.Sequential([
           layers.Dense(units=ff_size, activation='relu'),
           layers.Dense(units=num_filters)
       ], name='row_dense_%d' % layer_ind)
@@ -174,7 +174,7 @@ class OuterDecoder(layers.Layer):
           cond_scale=self.cond_att_scale,
           name='mask_col_att_%d' % layer_ind)
 
-      ff_col = tf.keras.Sequential([
+      ff_col = keras.Sequential([
           layers.Dense(units=ff_size, activation='relu'),
           layers.Dense(units=num_filters)
       ], name='col_dense_%d' % layer_ind)
@@ -318,7 +318,7 @@ class InnerDecoder(layers.Layer):
           cond_act=self.cond_att_act,
           name='mask_row_att_%d' % layer_ind)
 
-      ff_block = tf.keras.Sequential([
+      ff_block = keras.Sequential([
           layers.Dense(units=ff_size, activation='relu'),
           layers.Dense(units=hidden_size)
       ], name='dense_%d' % layer_ind)

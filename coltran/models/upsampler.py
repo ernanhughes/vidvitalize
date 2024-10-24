@@ -23,13 +23,13 @@ the final 256x256 high resolution output.
 
 See Section 4.3 of https://openreview.net/pdf?id=5NA1PinlGFu for more details.
 """
-import tensorflow.compat.v2 as tf
-from tensorflow.compat.v2.keras import layers
+from tensorflow import keras
+from keras import layers
 from coltran.models import layers as coltran_layers
 from coltran.utils import base_utils
 
 
-class ColorUpsampler(tf.keras.Model):
+class ColorUpsampler(keras.Model):
   """Color Upsampler."""
 
   def __init__(self, config, **kwargs):
@@ -172,7 +172,7 @@ class ColorUpsampler(tf.keras.Model):
     return loss, {}
 
 
-class SpatialUpsampler(tf.keras.Model):
+class SpatialUpsampler(keras.Model):
   """Spatial Upsampler."""
 
   def __init__(self, config, **kwargs):

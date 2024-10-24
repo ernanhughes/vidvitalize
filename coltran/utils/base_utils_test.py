@@ -56,7 +56,7 @@ class UtilsTest(tf.test.TestCase):
     triplets = itertools.product(bins, bins, bins)
 
     labels = np.array(list(triplets))
-    labels_t = tf.convert_to_tensor(labels, dtype=tf.float32)
+    labels_t = tf.convert_to_tensor(labels, dtype=float)
     bins_t = base_utils.labels_to_bins(labels_t, num_symbols_per_channel=8)
     bins_np = bins_t.numpy()
     self.assertTrue(np.allclose(bins_np, np.arange(512)))

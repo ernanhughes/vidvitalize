@@ -71,11 +71,11 @@ def build_optimizer(config):
   optim_config = dict(config.optimizer)
   optim_type = optim_config.pop('type', 'rmsprop')
   if optim_type == 'rmsprop':
-    optimizer = tf.keras.optimizers.RMSprop(**optim_config)
+    optimizer = keras.optimizers.RMSprop(**optim_config)
   elif optim_type == 'adam':
-    optimizer = tf.keras.optimizers.Adam(**optim_config)
+    optimizer = keras.optimizers.Adam(**optim_config)
   elif optim_type == 'sgd':
-    optimizer = tf.keras.optimizers.SGD(**optim_config)
+    optimizer = keras.optimizers.SGD(**optim_config)
   else:
     raise ValueError('Unknown optimizer %s.' % optim_type)
   return optimizer
